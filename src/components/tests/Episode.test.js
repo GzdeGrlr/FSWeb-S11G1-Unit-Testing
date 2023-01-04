@@ -2,27 +2,37 @@ import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Episode from "./../Episode";
+import { exampleEpisodeData, anotherEpisodeData } from "./sampleData";
 
-test("hatasız çalışıyor", () => {});
+import { fallbackEpisodeImg } from "../data";
 
-test("prop olarak test data gönderildiğnde render ediliyor", () => {});
+describe("Örnek veriyle sorunsuz çalışıyor mu?", () => {
+  beforeEach(() => {
+    render(<Episode episode={exampleEpisodeData} />);
+  });
 
-test("image tanımlanmadığında default image render ediliyor", () => {});
+  test("Sorunsuz render oluyor mu?", () => {
+    const epContainer = screen.getByTestId("ep-container");
+    expect(epContainer).toBeInTheDocument();
+  });
 
-// ----- ÖRNEK EPISODE TEST NESNESİ -----
-// const exampleEpisodeData = {
-//   airdate: "2016-07-15",
-//   airstamp: "2016-07-15T12:00:00+00:00",
-//   airtime: "",
-//   id: 553946,
-//   image: "https://static.tvmaze.com/uploads/images/medium_landscape/342/855786.jpg",
-//   name: "Chapter One: The Vanishing of Will Byers",
-//   number: 1,
-//   rating: { average: 8.2 },
-//   runtime: 49,
-//   season: 1,
-//   summary:
-//     "A young boy mysteriously disappears, and his panicked mother demands that the police find him. Meanwhile, the boy's friends conduct their own search, and meet a mysterious girl in the forest.",
-//   type: "regular",
-//   url: "https://www.tvmaze.com/episodes/553946/stranger-things-1x01-chapter-one-the-vanishing-of-will-byers",
-// };
+  test("İsim doğru mu?", () => {
+    const epName = screen.getByTestId("ep-name");
+    expect(epName.textContent).toBe(exampleEpisodeData.name);
+  });
+});
+
+describe("Değiştirilmiş veriyle çalışıyor mu?", () => {
+  beforeEach(() => {
+    render(<Episode episode={anotherEpisodeData} />);
+  });
+  test("image tanımlanmadığında default image render ediliyor", () => {
+    const epImg = screen.getByTestId("ep-img");
+    expect(epImg.src).toBe(fallbackEpisodeImg);
+  });
+
+  test("İsim doğru mu?", () => {
+    const epName = screen.getByTestId("ep-name");
+    expect(epName.textContent).toBe(anotherEpisodeData.name);
+  });
+});

@@ -1,14 +1,25 @@
-import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
-import Show from './../Show';
+import React from "react";
+import { render, fireEvent, screen } from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
+import Show from "./../Show";
 
-test('hatasız çalışıyor', () => { });
+describe("Show none prop değeriyle çalışıyor mu?", () => {
+  beforeEach(() => {
+    render(<Show show="none" selectedSeason="none" />);
+  });
 
-test('Loading bileşeni show propu null ken render ediliyor', () => { });
+  test("sayfada render ediliyor", () => {
+    const uyariKutusu = screen.getByTestId("bozuk-data-uyarisi");
+    expect(uyariKutusu).toBeInTheDocument();
+  });
 
-test('aynı sayıda sezon optionları render ediliyor', () => { });
+  test("Loading bileşeni show propu null ken render ediliyor", () => {
+    render(<Show />);
+    const loading = screen.getByTestId("loading-container");
+    expect(loading).toHaveTextContent("Fetching data...");
+  });
+});
 
-test('sezon seçiliyken handleSelect çağırılıyor', () => { });
+test("sezon seçiliyken handleSelect çağırılıyor", () => {});
 
-test('sezon seçili değilken bileşen render ediliyor ve sezon seçildiğinde yeniden render ediliyor', () => { });
+test("sezon seçili değilken bileşen render ediliyor ve sezon seçildiğinde yeniden render ediliyor", () => {});
